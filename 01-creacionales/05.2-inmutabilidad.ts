@@ -1,64 +1,67 @@
 /**
- * ! Inmutabilidad con copia
- * Aunque la inmutabilidad es una buena práctica, no siempre es posible.
- * En estos casos, se puede hacer una copia del objeto y modificar la copia.
+ * ! Immutability with Copy
+ * Immutability is a good practice, but not always possible.
+ * In these cases, you can create a copy of the object and modify the copy.
  *
- *  * Es útil para mantener un historial de estados en aplicaciones interactivas.
- *
+ * This is useful for keeping a history of states in interactive applications.
  */
 
 /**
- 1.	Completen el método copyWith en la clase Player para que permita 
- crear una copia con cambios en name, score o level.
- 
- 2.	Usen el código cliente para probar el funcionamiento de copyWith, 
- haciendo cambios en el puntaje, nivel y nombre del jugador.
+ 1. Complete the copyWith method in the Player class to allow creating a copy with changes in name, score, or level.
+ 2. Use the client code to test the functionality of copyWith by making changes to the player's score, level, and name.
  */
 
 import { COLORS } from '../helpers/colors.ts';
 
-// 1. Clase Player inmutable
+// Immutable Player class
 class Player {
   readonly name: string;
   readonly score: number;
   readonly level: number;
 
   constructor(name: string, score: number, level: number) {
-    throw new Error('Method not implemented.');
+    this.name = name;
+    this.score = score;
+    this.level = level;
   }
 
-  // Método copyWith para crear una copia modificada del jugador
+  // Creates a copy of the player with optional changes
   copyWith({ name, score, level }: Partial<Player>): Player {
-    throw new Error('Method not implemented.');
+    return new Player(
+      name ?? this.name,
+      score ?? this.score,
+      level ?? this.level,
+    );
   }
 
+  // Displays the player's state in the console
   displayState(): void {
-    console.log(`\n%cJugador: ${this.name}`, COLORS.green);
-    console.log(`%cPuntaje: ${this.score}`, COLORS.yellow);
-    console.log(`%cNivel: ${this.level}`, COLORS.blue);
+    console.log(`\n%cPlayer: ${this.name}`, COLORS.green);
+    console.log(`%cScore: ${this.score}`, COLORS.yellow);
+    console.log(`%cLevel: ${this.level}`, COLORS.blue);
   }
 }
 
-// 2. Código Cliente para probar
+// Client code to test Player immutability
 function main() {
-  // Crear jugador inicial
+  // Create initial player
   let player = new Player('Carlos', 0, 1);
-  console.log('Estado inicial:');
+  console.log('Initial state:');
   player.displayState();
 
-  // Incrementar el puntaje
+  // Increase score
   player = player.copyWith({ score: 10 });
-  console.log('\nDespués de incrementar el puntaje:');
+  console.log('\nAfter increasing score:');
   player.displayState();
 
-  // Subir de nivel
+  // Level up
   player = player.copyWith({ level: 2 });
-  console.log('\nDespués de subir de nivel:');
+  console.log('\nAfter leveling up:');
   player.displayState();
 
-  // Cambiar el nombre del jugador
+  // Change player name
   player = player.copyWith({ name: 'Carlos Pro' });
-  console.log('\nDespués de cambiar el nombre:');
+  console.log('\nAfter changing name:');
   player.displayState();
 }
 
