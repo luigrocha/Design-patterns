@@ -1,51 +1,65 @@
+import { COLORS } from "../helpers/colors.ts";
 /**
- * ! Patrón Prototype:
-
- * Es un patrón de diseño creacional que nos permite copiar objetos existentes sin hacer
- * que el código dependa de sus clases.
- * 
- * * Es útil cuando queremos duplicar el contenido, 
- * * el título y el autor de un documento, por ejemplo o cualquier objeto complejo.
- * 
- * https://refactoring.guru/es/design-patterns/prototype
+ * ! Patrón Prototype
+ *
+ * Es un patrón de diseño creacional que permite copiar objetos existentes sin depender de sus clases.
+ * Es útil para duplicar objetos complejos, como documentos, personajes, etc.
+ *
+ * Referencia: https://refactoring.guru/es/design-patterns/prototype
  */
 
 class Pokemon {
-  name: string;
-  type: string;
-  level: number;
-  attacks: string[];
-
-  constructor(name: string, type: string, level: number, attacks: string[]) {
-    throw new Error('Method not implemented.');
+  constructor(
+    public name: string,
+    public type: string,
+    public level: number,
+    public attacks: string[],
+  ) {
   }
 
-  // Método para clonar el Pokémon
+  /**
+   * Clona el Pokémon actual.
+   * Los ataques se copian en un nuevo arreglo para evitar referencias compartidas.
+   */
   clone(): Pokemon {
-    // Los ataques deben de evitar pasarse por referencia, es decir, no deben de ser el mismo arreglo.
-    // Completar: Debe devolver un nuevo Pokémon con los mismos atributos
+    return new Pokemon(this.name, this.type, this.level, [...this.attacks]);
   }
 
+  /**
+   * Muestra la información del Pokémon en consola.
+   */
   displayInfo(): void {
     console.log(
-      `Nombre: ${this.name}\nTipo: ${this.type}\nNivel: ${
-        this.level
-      }\nAtaques: ${this.attacks.join(', ')}`
+      `Nombre: ${this.name}\nTipo: ${this.type}\nNivel: ${this.level}\nAtaques: ${
+        this.attacks.join(", ")
+      }`,
     );
   }
 }
 
-// Tarea:
-// 1. Crear un Pokémon base.
-// 2. Clonar el Pokémon base y modificar algunos atributos en los clones.
-// 3. Llamar a displayInfo en cada Pokémon para mostrar sus detalles.
+// Ejemplo de uso del patrón Prototype:
 
-// Ejemplo:
-// const basePokemon = new Pokemon("Charmander", "Fuego", 1, ["Llamarada", "Arañazo"]);
-// const clone1 = basePokemon.clone();
-// clone1.name = "Charmeleon";
-// clone1.level = 16;
-// clone1.attacks.push("Lanzallamas");
+// 1. Crear un Pokémon base usando la clase Pokemon
+const basePokemon = new Pokemon("Charmander", "Fuego", 1, [
+  "Llamarada",
+  "Arañazo",
+]);
 
-// basePokemon.displayInfo(); // Aquí no debe de aparecer "Lanzallamas"
-// clone1.displayInfo();
+// 2. Clonar el Pokémon base y modificar atributos en los clones
+const clone1 = basePokemon.clone();
+clone1.name = "Charmeleon";
+clone1.level = 16;
+clone1.attacks.push("Lanzallamas");
+
+const clone2 = basePokemon.clone();
+clone2.name = "Charizard";
+clone2.level = 36;
+clone2.attacks.push("Garra Dragón");
+
+// 3. Mostrar detalles de cada Pokémon
+console.log("%cPokémon Charmander:", COLORS.cyan);
+basePokemon.displayInfo(); // No debe mostrar "Lanzallamas" ni "Garra Dragón"
+console.log("%cPokémon Charmeleon:", COLORS.pink);
+clone1.displayInfo();
+console.log("%cPokémon Charizard:", COLORS.yellow);
+clone2.displayInfo();
