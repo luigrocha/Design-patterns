@@ -42,7 +42,7 @@ function createLogger(level: LogLevel) {
 
     switch (level) {
       case 'info':
-        color = COLORS.green;
+        color = COLORS.white;
         levelLabel = 'INFO';
         break;
       case 'warn':
