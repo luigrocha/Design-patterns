@@ -1,11 +1,11 @@
+
 /**
  * ! Singleton:
- * Es un patrón de diseño creacional que garantiza que una clase
- * tenga una única instancia y proporciona un punto de acceso global a ella.
+ * It is a creational design pattern that ensures a class
+ * has a single instance and provides a global access point to it.
  *
- * * Es útil cuando necesitas controlar el acceso a una única instancia
- * * de una clase, como por ejemplo, en un objeto de base de datos o en un
- * * objeto de configuración.
+ * * It is useful when you need to control access to a single instance
+ * * of a class, such as a database object or a configuration object.
  */
 
 import { COLORS } from '../helpers/colors.ts';
@@ -14,39 +14,65 @@ class DatabaseConnection {
   private static instance: DatabaseConnection;
   private connected: boolean = false;
 
-  // Constructor privado para evitar instancias directas
+  // Private constructor to prevent direct instantiation
   private constructor() {}
 
-  // Método estático para obtener la instancia única
+  // Static method to get the unique instance
   public static getInstance(): DatabaseConnection {
-    // Completar: implementar el patrón Singleton
-    throw new Error('Method not implemented.');
+  // Complete: implement the Singleton pattern
+    if (!DatabaseConnection.instance) {
+      DatabaseConnection.instance = new DatabaseConnection();
+      console.log('====================================');
+      console.log('%cNew instance of DatabaseConnection created', COLORS.green);
+      console.log('====================================');
+    }
+    return DatabaseConnection.instance;
   }
 
-  // Método para conectar a la base de datos
+  // Method to connect to the database
   public connect(): void {
-    // Completar: si no está conectado, mostrar mensaje de conexión
+  // Complete: if not connected, show connection message
+    if (!this.connected) {
+      this.connected = true;
+      console.log('====================================');
+      console.log('%cConnected to the database', COLORS.yellow);
+      console.log('====================================');
+    } else {
+      console.log('====================================');
+      console.log('%cAlready connected to the database', COLORS.blue);
+      console.log('====================================');
+    }
   }
 
-  // Método para desconectar de la base de datos
+  // Method to disconnect from the database
   public disconnect(): void {
-    // Completar: desconectar y mostrar mensaje de desconexión
+  // Complete: disconnect and show disconnection message
+    if (this.connected) {
+      this.connected = false;
+      console.log('====================================');
+      console.log('%cDisconnected from the database', COLORS.red);
+      console.log('====================================');
+    } else {
+      console.log('====================================');
+      console.log('%cNo active connection to disconnect', COLORS.pink);
+      console.log('====================================');
+    }
   }
 }
 
-// Pruebas
+// Tests
 function main() {
   const db1 = DatabaseConnection.getInstance();
-  db1.connect(); // Debería conectar a la base de datos
+  db1.connect(); // Should connect to the database
 
   const db2 = DatabaseConnection.getInstance();
-  db2.connect(); // Debería mostrar que ya existe una conexión activa
+  db2.connect(); // Should show that there is already an active connection
 
-  console.log('Son iguales:', db1 === db2); // Debería mostrar true
+  console.log('Are they equal:', db1 === db2); // Should show true
 
-  db1.disconnect(); // Debería cerrar la conexión
+  db1.disconnect(); // Should close the connection
 
-  db2.connect(); // Ahora debería conectar de nuevo, ya que se cerró la anterior
+  db2.connect(); // Now should connect again, since the previous one was closed
 }
 
 main();
