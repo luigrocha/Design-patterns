@@ -10,3 +10,12 @@
  *
  * https://refactoring.guru/es/design-patterns/adapter
  */
+
+import { LocalLogger } from "./adapter-files/local-logger.ts";
+
+const logger = new LocalLogger('01-adapter.ts');
+
+logger.writeLog('Iniciando el patrón Adapter');
+logger.writeLog('Creando instancias de los adaptadores de pago');
+logger.writeWarn('Este es un mensaje de advertencia');
+logger.writeError('Este es un mensaje de error');

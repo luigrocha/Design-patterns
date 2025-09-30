@@ -1,3 +1,8 @@
-import { Logger } from 'jsr:@deno-library/logger';
+import { Logger } from '@deno-library/logger';
 
-// TODO: Implementar el LoggerAdapter
+const logger: Logger = new Logger();
+
+logger.info('Application started successfully.');
+logger.warn('Memory usage is high.');
+logger.error('Database connection error.');
+
